@@ -30,21 +30,25 @@ plt.rcParams['axes.linewidth'] = 2
 fonts                          = 18
 # 
 # 
-
+# If no f21 is first, then it is not a fake effect. 
+# 
+# F21           no F21
+# 
+# 
 # Number in each category: 10 
 # first is f21, second is no f21. 
-pos_1 = [6,6] 	# 
-pos_2 = [6,6] 	# 
+pos_1 = [6,7] 	# 
+pos_2 = [7,6] 	# 
 # 
 
-pos_1 = [18,18] 	# 
-pos_2 = [18,18] 	# 
+pos_1 = [18,21] 	# 
+pos_2 = [21,18] 	# 
 # 
 # 
 # 
 order = ["1","2"]
 
-names = ["ACDC","AC"]
+names = ["No F21","F21"]
 df = pd.DataFrame({'First': pos_2, 'Second': pos_1 }, index=names)
 
 # 

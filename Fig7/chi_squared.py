@@ -36,12 +36,12 @@ plt.rcParams['axes.linewidth'] = 2
 fonts                          = 18
 #  
 #  
-# filepath = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_us_mechanism/F21/new_paired/'
-# outpath  = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_us_mechanism/F21/'
+# #  
+filepath  = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_us_mechanism/ACDC/new_paired/'
+outpath   = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_us_mechanism/ACDC/'
 
-filepath = 'subsampled_data/'
+filepath = 'ACDC_subsampled/'
 outpath = filepath
-# outpath  = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_us_mechanism/F21/'
 # 
 file_list = [f for f in listdir(filepath) if isfile(join(filepath, f))]
 file_list = sorted(file_list)
@@ -60,10 +60,11 @@ for i in range(len(file_list)):
         raw            = data['data']
         results        = data['results']        
         [dt,d_rf,d_v,d_i,d_emg,d_hemg,brain_signal] = raw
-        [emg1, b1, p1, emg2, b2, p2, emg3, b3, p3]        = results
-
+        # [emg1, b1, p1, emg2, b2, p2, emg3, b3, p3]        = results
+        [emg1, b1, p1, hsnr1, emg2, b2, p2,hsnr2, emg3, b3, p3,hsnr3]        = results
+        # data = [dt,d_rf,d_v,d_i,d_emg,d_hemg,brain_signal]
         #  
-        if '_noF21_' in file_list[i]:
+        if '_ACDC_' in file_list[i]:
             nof21_emg_range.append(emg1)
             nof21_emg_range.append(emg2)
             nof21_emg_range.append(emg3)
@@ -161,7 +162,7 @@ thresh               = 1.5
 frequency_array = np.zeros((2,2))
 print ('fre',frequency_array.shape)
 #  
-#  this has to be done for each pulse. 
+# this has to be done for each pulse. 
 for i in range(len(f21_emg_range)-1):
         if oo[i,0] == 'f21': 
             # print ('f21 first')
@@ -182,14 +183,12 @@ for i in range(len(f21_emg_range)-1):
             if nof21_emg_range[i] > thresh:
                 frequency_array[1,1] = frequency_array[1,1]+1; 
 # 
-# 
 # To do a Chi-squared test first you need to have categorical variables. 
-# 
-# 
 print ('f array',frequency_array)
 
 # res = chi2_contingency(frequency_array)
 chi2, p, dof, ex = chi2_contingency(frequency_array, correction=True)
+print ('chi2,p,dof,ex', chi2, p, dof, ex)
 
 df = pd.DataFrame(frequency_array)  
 # 
