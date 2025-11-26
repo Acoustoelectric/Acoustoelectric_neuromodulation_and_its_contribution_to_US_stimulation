@@ -1,4 +1,4 @@
-# Acoustoelectric_neuromodulation_and_its_contribution_to_US_stimulation
+# Acoustoelectric neuromodulation and its contribution to US stimulation
 
 ## Overview
 
@@ -6,7 +6,7 @@ The code contained in this repository, works in conjunction with the datasets up
 
 The purpose of this code and data is to recreate the figures in the article 'Non-invasive in vivo acoustoelectric neuromodulation and its contribution to ultrasound stimulation'
 
-## Summary
+## Abstract
 
 Non-invasive brain stimulation offers therapeutic potential without the risks of surgery, yet current electrical approaches lack spatial precision and depth due to the long wavelengths of electric fields. Here we demonstrate that the acoustoelectric interaction—the nonlinear coupling between applied acoustic and electric fields—can overcome these limitations to achieve spatially focused, non-invasive neuromodulation. Using in vitro and in vivo rodent electrophysiology, we show motor-evoked potentials that depend on both the amplitude and frequency of the acoustoelectric field, with artefactual controls excluding purely acoustic or electrical origins. We further identify an acoustoelectric contribution to conventional ultrasound stimulation, arising from the interaction between ultrasound-induced electrical signals and propagating acoustic waves. These findings establish acoustoelectric neuromodulation as a distinct mechanism of neural activation and a significant contributor to how ultrasound stimulation influences brain activity, opening new directions for precise, non-invasive neuromodulation and neurotherapeutic development.
 
@@ -41,4 +41,4 @@ pip freeze
 
 ## License
 
-This project is covered under the Apache 2.0 License.
+This project is covered under the <b>Apache 2.0 License</b>.
