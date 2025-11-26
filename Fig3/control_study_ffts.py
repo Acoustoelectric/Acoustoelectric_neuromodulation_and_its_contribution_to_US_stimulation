@@ -26,9 +26,9 @@ from statsmodels.stats.multicomp import pairwise_tukeyhsd
 #  
 # 
 # 
-filepath  = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_neuromodulation/new_analysis_with_control/aedc_data/'
-control   = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_neuromodulation/new_analysis_with_control/DC_subsampled/'
-outpath   = '/Users/jeanrintoul/Desktop/PhD/analysis/ae_neuromodulation/new_analysis_with_control/'
+filepath  = '/Users/jeanrintoul/Desktop/PhD/analysis/combined_article_figshare_data_and_code/Fig3/aedc_data/'
+control   = '/Users/jeanrintoul/Desktop/PhD/analysis/combined_article_figshare_data_and_code/Fig3/control_nostim_subsampled/'
+outpath   = '/Users/jeanrintoul/Desktop/PhD/analysis/combined_article_figshare_data_and_code/Fig3/'
 # 
 # 
 # 
@@ -213,7 +213,7 @@ plt.rcParams['axes.linewidth'] = 2
 fonts                          = 18
 # 
 print ('ae ffts: ',ae_ffts[f_df_idx] )
-# 
+# convert to millivolts here. 
 sample1 = 0.001*ae_ffts[f_df_idx] 
 sample2 = 0.001*p_ffts[f_df_idx]
 sample3 = 0.001*v_ffts[f_df_idx]
@@ -234,17 +234,8 @@ sample3[index_max] = 0
 index_max = np.argmax(sample4)
 print ('sample 4: ', np.max(sample4),index_max )
 sample4[index_max] = 0
-
-
-# sample1 = sample1.sort()
-# sample2 = sample2.sort()
-# sample3 = sample3.sort()
-# print ('sort: ',sample1)
-# sample1= sample1[0]
-# sample2.remove(max(sample2))
-# sample3.remove(max(sample3))
-
-
+# 
+# 
 scolors = ['Black', 'Red', 'Grey','Pink']
 x = [1,2,3,4]
 y = [sample1,sample2,sample3,sample4]
@@ -314,23 +305,24 @@ print ('ae ffts :',sample1 )
 print ('pressure ffts :',sample2 )
 print ('v ffts :',sample3 )
 print ('c ffts :',sample4 )
-totals = sample1 + sample2 + sample3 + 0.01
-# 
-const = 1 
+totals = sample1 + sample2 + sample3 # + 0.01
+
+
+const = 0 
 j = 0 
 for i in range(len(sample2)): 
     #   
-    sample1[i] = np.log(const+sample1[i]/totals[i])
-    sample3[i] = np.log(const+sample3[i]/totals[i])
-    sample2[i] = np.log(const+sample2[i]/totals[i])
+    sample1[i] = const+sample1[i]/totals[i]
+    sample3[i] = const+sample3[i]/totals[i]
+    sample2[i] = const+sample2[i]/totals[i]
     if i > len(sample4_orig):
         print ('here',j)
-        sample4[i] = np.log(const+sample4_orig[j]/totals[i])
+        sample4[i] =const+sample4_orig[j]/totals[i]
         j = j + 1
         if j >= len(sample4_orig):
             j = 0 
     else: 
-        sample4[i] = np.log(const+sample4_orig[j]/totals[i])
+        sample4[i] = const+sample4_orig[j]/totals[i]
 
 
 print ('2 ae ffts :',sample1)
@@ -339,9 +331,9 @@ print ('2 v ffts :',sample3 )
 print ('2 c ffts :',sample4 )
 
 # tukey's test for multiple comparisons. 
-res = tukey_hsd(sample1,sample2,sample3,sample4)
+res = tukey_hsd(np.log(sample1),np.log(sample2),np.log(sample3),np.log(sample4) )
 print (res)
-print (f_oneway(sample1,sample2,sample3,sample4))
+print (f_oneway(np.log(sample1),np.log(sample2),np.log(sample3),np.log(sample4) ))
 print ('Tukey p-vals: ',res.pvalue)
 
 materials = ['ae','p','v','c']

@@ -129,72 +129,75 @@ plt.rc('font', serif='Arial')
 plt.rcParams['axes.linewidth'] = 2
 fonts                          = 18
 
-ac_snrs         = np.array(ac_snrs)
-dc_snrs         = np.array(dc_snrs)
-mean_ac_snr     = np.mean(ac_snrs)
-mean_dc_snr     = np.mean(dc_snrs)
-std_ac_snr      = np.std(ac_snrs)
-std_dc_snr      = np.std(dc_snrs)
-print ('means and std snrs:',mean_ac_snr,mean_dc_snr,std_ac_snr,std_dc_snr)
 # 
+# ac_snrs         = np.array(f21_emgs)
+# dc_snrs         = np.array(nof21_emgs)
+# mean_ac_snr     = np.mean(ac_snrs)
+# mean_dc_snr     = np.mean(dc_snrs)
+# std_ac_snr      = np.std(ac_snrs)
+# std_dc_snr      = np.std(dc_snrs)
 
-# T-test. 
-sample2 = ac_snrs.flatten()
-sample1 = dc_snrs.flatten()
-t_stat, p_value = ttest_ind(sample1, sample2) 
-print('snr T-statistic value: ', t_stat) 
-print('snr P-Value: ', p_value)
-print('Number of measurements in each group: ', len(sample1),len(sample2))
-# Create lists for the plot
-materials = ['ACDC', 'AC']
-x_pos     = np.arange(len(materials))
-CTEs      = [mean_ac_snr,mean_dc_snr]
-error     = [std_ac_snr,std_dc_snr]
-# 
-data    = [sample1, sample2]
-w       = 0.8    # bar width
-scolors = ['grey','grey']
-colors  = ['lightgrey','lightgrey']
-scolors = ['grey','red']
-scolors = ['red','grey']
-x       = [1,2]
-y       = data
 
-# Build the plot
-fig = plt.figure(figsize=(3,3))
-ax  = fig.add_subplot(111)
-violin_parts = ax.violinplot(data, widths = 0.9, showmeans = True, showextrema = True)
-colors = ['Black', 'Red']
-colors = ['Red', 'Black']
-# colors = ['lightgrey','red']
-# Set the color of the violin patches
-for pc, color in zip(violin_parts['bodies'], colors):
-    pc.set_facecolor(color)
-# Set the color of the median lines
-violin_parts['cmeans'].set_colors(colors)
-violin_parts['cbars'].set_colors(colors)
-violin_parts['cmins'].set_colors(colors)
-violin_parts['cmaxes'].set_colors(colors)
-ax.set_xticks([1,2])
-# ax.set_ylim([0,8000])
-# scatter plot width. 
-w = 0.4 
-for i in range(len(x)):
-    # distribute scatter randomly across whole width of bar
-    ax.scatter(x[i] + np.random.random(y[i].size) * w - w / 2, y[i],color=scolors[i])
-# ax.bar(x_pos, CTEs, yerr=error, align='center', alpha=0.5,color='grey', ecolor='black', capsize=10)
-# ax.set_xticks(x_pos)
-ax.set_xticklabels(materials)
-# ax.yaxis.grid(True)
-plt.yticks(fontsize=fonts)
-plt.xticks(fontsize=fonts)
-ax.spines['right'].set_visible(False)
-ax.spines['top'].set_visible(False)
-# plt.title('carrier amplitudes')
-# Save the figure and show
-plt.tight_layout()
-plt.savefig('acdc_snrs.png')
-plt.show()
+# print ('means and std snrs:',mean_ac_snr,mean_dc_snr,std_ac_snr,std_dc_snr)
+# # 
+
+# # T-test. 
+# sample2 = ac_snrs.flatten()
+# sample1 = dc_snrs.flatten()
+# t_stat, p_value = ttest_ind(sample1, sample2) 
+# print('snr T-statistic value: ', t_stat) 
+# print('snr P-Value: ', p_value)
+# print('Number of measurements in each group: ', len(sample1),len(sample2))
+# # Create lists for the plot
+# materials = ['ACDC', 'AC']
+# x_pos     = np.arange(len(materials))
+# CTEs      = [mean_ac_snr,mean_dc_snr]
+# error     = [std_ac_snr,std_dc_snr]
+# # 
+# data    = [sample1, sample2]
+# w       = 0.8    # bar width
+# scolors = ['grey','grey']
+# colors  = ['lightgrey','lightgrey']
+# scolors = ['grey','red']
+# scolors = ['red','grey']
+# x       = [1,2]
+# y       = data
+
+# # Build the plot
+# fig = plt.figure(figsize=(3,3))
+# ax  = fig.add_subplot(111)
+# violin_parts = ax.violinplot(data, widths = 0.9, showmeans = True, showextrema = True)
+# colors = ['Black', 'Red']
+# colors = ['Red', 'Black']
+# # colors = ['lightgrey','red']
+# # Set the color of the violin patches
+# for pc, color in zip(violin_parts['bodies'], colors):
+#     pc.set_facecolor(color)
+# # Set the color of the median lines
+# violin_parts['cmeans'].set_colors(colors)
+# violin_parts['cbars'].set_colors(colors)
+# violin_parts['cmins'].set_colors(colors)
+# violin_parts['cmaxes'].set_colors(colors)
+# ax.set_xticks([1,2])
+# # ax.set_ylim([0,8000])
+# # scatter plot width. 
+# w = 0.4 
+# for i in range(len(x)):
+#     # distribute scatter randomly across whole width of bar
+#     ax.scatter(x[i] + np.random.random(y[i].size) * w - w / 2, y[i],color=scolors[i])
+# # ax.bar(x_pos, CTEs, yerr=error, align='center', alpha=0.5,color='grey', ecolor='black', capsize=10)
+# # ax.set_xticks(x_pos)
+# ax.set_xticklabels(materials)
+# # ax.yaxis.grid(True)
+# plt.yticks(fontsize=fonts)
+# plt.xticks(fontsize=fonts)
+# ax.spines['right'].set_visible(False)
+# ax.spines['top'].set_visible(False)
+# # plt.title('carrier amplitudes')
+# # Save the figure and show
+# plt.tight_layout()
+# plt.savefig('acdc_emgs.png')
+# plt.show()
 
 # 
 nof21_ps      = np.array(nof21_ps)
@@ -286,17 +289,26 @@ nof21_emgs       = np.array(nof21_emgs)
 f21_emgs         = np.array(f21_emgs)
 nof21_emgs       = nof21_emgs.flatten()
 f21_emgs         = f21_emgs.flatten()
-# 
+
 # Normalization: 
 # 
-const = 1
+# const = 1
+# for i in range(len(nof21_emgs)): 
+#     totals = nof21_emgs[i] + f21_emgs[i] + 0.01
+#     nof21_emgs[i] = np.log(const+nof21_emgs[i]/totals)
+#     f21_emgs[i] = np.log(const+f21_emgs[i]/totals)
+# # need to scale it between 0-1 better. 
+# group1_emg = nof21_emgs/0.7
+# group2_emg = f21_emgs/0.7
+
+const = 0
 for i in range(len(nof21_emgs)): 
-    totals = nof21_emgs[i] + f21_emgs[i] + 0.01
-    nof21_emgs[i] = np.log(const+nof21_emgs[i]/totals)
-    f21_emgs[i] = np.log(const+f21_emgs[i]/totals)
-# need to scale it between 0-1 better. 
-group1_emg = nof21_emgs/0.7
-group2_emg = f21_emgs/0.7
+    totals = nof21_emgs[i] + f21_emgs[i] 
+    nof21_emgs[i] = const+nof21_emgs[i]/totals
+    f21_emgs[i] = const+f21_emgs[i]/totals
+
+group1_emg = nof21_emgs
+group2_emg = f21_emgs
 
 mean_emg_1  = np.mean(group1_emg)
 mean_emg_2  = np.mean(group2_emg)
@@ -308,7 +320,7 @@ print ('means and stds:',mean_emg_1,mean_emg_2,std_emg_1,std_emg_2)
 # T-test. 
 sample1 = group1_emg
 sample2 = group2_emg
-t_stat, p_value = ttest_ind(sample1, sample2) 
+t_stat, p_value = ttest_ind(np.log(sample1), np.log(sample2) ) 
 print('T-statistic value: ', t_stat) 
 print('P-Value: ', p_value)
 print('Number of measurements in each group: ', len(group1_emg),len(group2_emg))
@@ -363,31 +375,31 @@ ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)
 # Save the figure and show
 plt.tight_layout()
-plt.savefig('f21_emgs.png')
+plt.savefig('acdc_emgs.png')
 plt.show()
-# 
-# 
-
-
-# I'm not doing the normalization right? 
-nof21_b = np.array(nof21_brain_amps)
-f21_b   = np.array(f21_brain_amps)
-nof21_b = nof21_b.flatten()
-f21_b = f21_b.flatten()
-
-print ('brain shape:', nof21_b.shape) # 12,3 
-
-# const = 1
-# for i in range(len(nof21_b)): 
-#     totals = nof21_b[i]  + f21_b[i] + 0.01
-#     nof21_b[i] = np.log(const+nof21_b[i]/totals)
-#     f21_b[i] = np.log(const+f21_b[i]/totals)
 # # 
-# group1_b = nof21_b/0.7
-# group2_b = f21_b/0.7
+# # 
 
-group1_b = nof21_b
-group2_b = f21_b
+
+# # I'm not doing the normalization right? 
+nof21_brain = np.array(nof21_brain_amps)
+f21_brain   = np.array(f21_brain_amps)
+# nof21_b = nof21_b.flatten()
+# f21_b = f21_b.flatten()
+
+# print ('brain shape:', nof21_b.shape) # 12,3 
+
+# # const = 1
+# # for i in range(len(nof21_b)): 
+# #     totals = nof21_b[i]  + f21_b[i] + 0.01
+# #     nof21_b[i] = np.log(const+nof21_b[i]/totals)
+# #     f21_b[i] = np.log(const+f21_b[i]/totals)
+# # # 
+# # group1_b = nof21_b/0.7
+# # group2_b = f21_b/0.7
+
+group1_b = nof21_brain
+group2_b = f21_brain
 
 
 print ('brain length', len(group1_b))
@@ -457,72 +469,72 @@ plt.show()
 
 
 
-# Now do the k means cluster analysis. 
-# group1_b
-# group1_emg
-# 0, 1,
-true_labels = np.full(len(group1_b), 1).tolist() + np.zeros(len(group2_b)).tolist() 
-true_labels = np.array(true_labels).astype(int).tolist()
-print (true_labels)
-# 
-features = [group1_b.tolist() + group2_b.tolist(), group1_emg.tolist() + group2_emg.tolist()]
-features = np.array(features).T
-# print (features.shape)
-# print (len(true_labels))
-# 
-# First I think I should perform my own normalization per set.
-# 
-# standardization. scales everything between 0-1. 
-scaler = StandardScaler()
-scaled_features = scaler.fit_transform(features)
-# 
-kmeans = KMeans(n_clusters=2,random_state=42)
-kmeans.fit(scaled_features)
-print (kmeans.n_iter_)
-print (kmeans.labels_)
+# # Now do the k means cluster analysis. 
+# # group1_b
+# # group1_emg
+# # 0, 1,
+# true_labels = np.full(len(group1_b), 1).tolist() + np.zeros(len(group2_b)).tolist() 
+# true_labels = np.array(true_labels).astype(int).tolist()
 # print (true_labels)
+# # 
+# features = [group1_b.tolist() + group2_b.tolist(), group1_emg.tolist() + group2_emg.tolist()]
+# features = np.array(features).T
+# # print (features.shape)
+# # print (len(true_labels))
+# # 
+# # First I think I should perform my own normalization per set.
+# # 
+# # standardization. scales everything between 0-1. 
+# scaler = StandardScaler()
+# scaled_features = scaler.fit_transform(features)
+# # 
+# kmeans = KMeans(n_clusters=2,random_state=42)
+# kmeans.fit(scaled_features)
+# print (kmeans.n_iter_)
+# print (kmeans.labels_)
+# # print (true_labels)
 
 
-true = true_labels
-pred = kmeans.labels_
-print (true)
+# true = true_labels
+# pred = kmeans.labels_
+# print (true)
 
 
-fig = plt.figure(figsize=(4,3))
-ax  = fig.add_subplot(111)
-plt.plot(group1_b,group1_emg,'or')
-plt.plot(group2_b,group2_emg,'ok')
-ax.set_xlim([0,1])
-ax.set_ylim([0,1])
-plt.yticks(fontsize=fonts)
-plt.xticks(fontsize=fonts)
-ax.spines['right'].set_visible(False)
-ax.spines['top'].set_visible(False)
-# Save the figure and show. 
-plt.tight_layout()
-plt.savefig('cluster_brain.png')
-plt.show()
-# 
-# Confusion Matrix. 
-# 
-labels = ['ACDC', 'AC']
-cm = confusion_matrix(true, pred)
-cm = np.flip(cm)
+# fig = plt.figure(figsize=(4,3))
+# ax  = fig.add_subplot(111)
+# plt.plot(group1_b,group1_emg,'or')
+# plt.plot(group2_b,group2_emg,'ok')
+# ax.set_xlim([0,1])
+# ax.set_ylim([0,1])
+# plt.yticks(fontsize=fonts)
+# plt.xticks(fontsize=fonts)
+# ax.spines['right'].set_visible(False)
+# ax.spines['top'].set_visible(False)
+# # Save the figure and show. 
+# plt.tight_layout()
+# plt.savefig('cluster_brain.png')
+# plt.show()
+# # 
+# # Confusion Matrix. 
+# # 
+# labels = ['ACDC', 'AC']
+# cm = confusion_matrix(true, pred)
+# cm = np.flip(cm)
 
-print ('cm',cm)
-cm = [[35,1],
-[1,35]]
-print ('cm',cm)
-sns.set(font_scale=1.8)
-df_cm = pd.DataFrame(cm, index = labels,columns = labels)
-# 
-# 
-fig = plt.figure(figsize=(3,3))
-ax = fig.add_subplot(111)
-sns.heatmap(df_cm,annot=True,cmap="OrRd",fmt='g')
-plt.tight_layout()
-plt.savefig('confusion_matrix.png')
-plt.show()
-print(cm)
-# 
-# 
+# print ('cm',cm)
+# cm = [[35,1],
+# [1,35]]
+# print ('cm',cm)
+# sns.set(font_scale=1.8)
+# df_cm = pd.DataFrame(cm, index = labels,columns = labels)
+# # 
+# # 
+# fig = plt.figure(figsize=(3,3))
+# ax = fig.add_subplot(111)
+# sns.heatmap(df_cm,annot=True,cmap="OrRd",fmt='g')
+# plt.tight_layout()
+# plt.savefig('confusion_matrix.png')
+# plt.show()
+# print(cm)
+# # 
+# # 

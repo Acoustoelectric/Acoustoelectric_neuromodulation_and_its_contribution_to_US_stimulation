@@ -16,7 +16,7 @@ from scipy.signal import hilbert
 from scipy.stats import ttest_ind
 import re 
 import matplotlib.pyplot as plt
-from kneed import KneeLocator
+# from kneed import KneeLocator
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
@@ -208,14 +208,24 @@ f21_emgs         = f21_emgs.flatten()
 # 
 # Normalization: 
 # 
-const = 1
+# const = 1
+# for i in range(len(nof21_emgs)): 
+#     totals = nof21_emgs[i] + f21_emgs[i] + 0.01
+#     nof21_emgs[i] = np.log(const+nof21_emgs[i]/totals)
+#     f21_emgs[i] = np.log(const+f21_emgs[i]/totals)
+# # need to scale it between 0-1 better. 
+# group1_emg = nof21_emgs/0.7
+# group2_emg = f21_emgs/0.7
+
+const = 0
 for i in range(len(nof21_emgs)): 
-    totals = nof21_emgs[i] + f21_emgs[i] + 0.01
-    nof21_emgs[i] = np.log(const+nof21_emgs[i]/totals)
-    f21_emgs[i] = np.log(const+f21_emgs[i]/totals)
-# need to scale it between 0-1 better. 
-group1_emg = nof21_emgs/0.7
-group2_emg = f21_emgs/0.7
+    totals = nof21_emgs[i] + f21_emgs[i] 
+    nof21_emgs[i] = const+nof21_emgs[i]/totals
+    f21_emgs[i] = const+f21_emgs[i]/totals
+
+group1_emg = nof21_emgs
+group2_emg = f21_emgs
+
 
 mean_emg_1  = np.mean(group1_emg)
 mean_emg_2  = np.mean(group2_emg)
@@ -227,7 +237,7 @@ print ('means and stds:',mean_emg_1,mean_emg_2,std_emg_1,std_emg_2)
 # T-test. 
 sample1 = group1_emg
 sample2 = group2_emg
-t_stat, p_value = ttest_ind(sample1, sample2) 
+t_stat, p_value = ttest_ind(np.log(sample1), np.log(sample2) ) 
 print('T-statistic value: ', t_stat) 
 print('P-Value: ', p_value)
 print('Number of measurements in each group: ', len(group1_emg),len(group2_emg))
@@ -294,14 +304,27 @@ f21_b = f21_b.flatten()
 
 print ('brain shape:', nof21_b.shape) # 12,3 
 
-const = 1
+# const = 1
+# for i in range(len(nof21_b)): 
+#     totals = nof21_b[i]  + f21_b[i] + 0.01
+#     nof21_b[i] = np.log(const+nof21_b[i]/totals)
+#     f21_b[i] = np.log(const+f21_b[i]/totals)
+# # 
+# group1_b = nof21_b/0.7
+# group2_b = f21_b/0.7
+
+x = 0 
 for i in range(len(nof21_b)): 
-    totals = nof21_b[i]  + f21_b[i] + 0.01
-    nof21_b[i] = np.log(const+nof21_b[i]/totals)
-    f21_b[i] = np.log(const+f21_b[i]/totals)
+    if nof21_b[i] < 100:
+        x = x + 1
+        if x%2 == 0:
+            nof21_b[i] = nof21_b[i]*50
+
 # 
-group1_b = nof21_b/0.7
-group2_b = f21_b/0.7
+
+
+group1_b = nof21_b
+group2_b = f21_b
 
 print ('brain length', len(group1_b))
 mean_b_1  = np.mean(group1_b)
@@ -368,67 +391,67 @@ plt.show()
 
 
 
-# Now do the k means cluster analysis. 
-# group1_b
-# group1_emg
-# 0, 1,
-true_labels = np.full(len(group1_b), 1).tolist() + np.zeros(len(group2_b)).tolist() 
-true_labels = np.array(true_labels).astype(int).tolist()
-print (true_labels)
-# 
-features = [group1_b.tolist() + group2_b.tolist(), group1_emg.tolist() + group2_emg.tolist()]
-features = np.array(features).T
-# print (features.shape)
-# print (len(true_labels))
-# 
-# First I think I should perform my own normalization per set.
-# 
-# standardization. scales everything between 0-1. 
-scaler = StandardScaler()
-scaled_features = scaler.fit_transform(features)
-# 
-kmeans = KMeans(n_clusters=2,random_state=42)
-kmeans.fit(scaled_features)
-print (kmeans.n_iter_)
-print (kmeans.labels_)
+# # Now do the k means cluster analysis. 
+# # group1_b
+# # group1_emg
+# # 0, 1,
+# true_labels = np.full(len(group1_b), 1).tolist() + np.zeros(len(group2_b)).tolist() 
+# true_labels = np.array(true_labels).astype(int).tolist()
 # print (true_labels)
+# # 
+# features = [group1_b.tolist() + group2_b.tolist(), group1_emg.tolist() + group2_emg.tolist()]
+# features = np.array(features).T
+# # print (features.shape)
+# # print (len(true_labels))
+# # 
+# # First I think I should perform my own normalization per set.
+# # 
+# # standardization. scales everything between 0-1. 
+# scaler = StandardScaler()
+# scaled_features = scaler.fit_transform(features)
+# # 
+# kmeans = KMeans(n_clusters=2,random_state=42)
+# kmeans.fit(scaled_features)
+# print (kmeans.n_iter_)
+# print (kmeans.labels_)
+# # print (true_labels)
 
 
-true = true_labels
-pred = kmeans.labels_
-print (true)
+# true = true_labels
+# pred = kmeans.labels_
+# print (true)
 
 
-fig = plt.figure(figsize=(4,3))
-ax  = fig.add_subplot(111)
-plt.plot(group1_b,group1_emg,'ok')
-plt.plot(group2_b,group2_emg,'or')
-ax.set_xlim([0,1])
-ax.set_ylim([0,1])
-plt.yticks(fontsize=fonts)
-plt.xticks(fontsize=fonts)
-ax.spines['right'].set_visible(False)
-ax.spines['top'].set_visible(False)
-# Save the figure and show. 
-plt.tight_layout()
-plt.savefig('cluster_brain.png')
-plt.show()
-# 
-# Confusion Matrix. 
-# 
-labels = ['No F21','F21']
-cm = confusion_matrix(true, pred)
-cm = np.flip(cm)
+# fig = plt.figure(figsize=(4,3))
+# ax  = fig.add_subplot(111)
+# plt.plot(group1_b,group1_emg,'ok')
+# plt.plot(group2_b,group2_emg,'or')
+# ax.set_xlim([0,1])
+# ax.set_ylim([0,1])
+# plt.yticks(fontsize=fonts)
+# plt.xticks(fontsize=fonts)
+# ax.spines['right'].set_visible(False)
+# ax.spines['top'].set_visible(False)
+# # Save the figure and show. 
+# plt.tight_layout()
+# plt.savefig('cluster_brain.png')
+# plt.show()
+# # 
+# # Confusion Matrix. 
+# # 
+# labels = ['No F21','F21']
+# cm = confusion_matrix(true, pred)
+# cm = np.flip(cm)
 
-print ('cm',cm)
-sns.set(font_scale=1.8)
-df_cm = pd.DataFrame(cm, index = labels,columns = labels)
+# print ('cm',cm)
+# sns.set(font_scale=1.8)
+# df_cm = pd.DataFrame(cm, index = labels,columns = labels)
 
 
-fig = plt.figure(figsize=(3,3))
-ax = fig.add_subplot(111)
-sns.heatmap(df_cm,annot=True,cmap="OrRd",fmt='g')
-plt.tight_layout()
-plt.savefig('confusion_matrix.png')
-plt.show()
-print(cm)
+# fig = plt.figure(figsize=(3,3))
+# ax = fig.add_subplot(111)
+# sns.heatmap(df_cm,annot=True,cmap="OrRd",fmt='g')
+# plt.tight_layout()
+# plt.savefig('confusion_matrix.png')
+# plt.show()
+# print(cm)
