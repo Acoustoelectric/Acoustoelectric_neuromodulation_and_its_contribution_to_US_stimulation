@@ -2,7 +2,7 @@
 
 ## Overview
 
-The code contained in this repository, works in conjunction with the datasets uploaded to figshare at: DOI: 10.1101/2025.11.02.685597
+The code contained in this repository, works in conjunction with the datasets uploaded to figshare at: DOI: https://doi.org/10.6084/m9.figshare.c.7909283
 
 The purpose of this code and data is to recreate the figures in the article 'Non-invasive in vivo acoustoelectric neuromodulation and its contribution to ultrasound stimulation'
 
