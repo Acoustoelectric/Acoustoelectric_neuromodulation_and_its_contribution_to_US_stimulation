@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+
+title: "Acoustoelectric_neuromodulation_and_its_contribution_to_US_stimulation"
+
+message: "If you use this software, please cite it as below."
+
+type: software
+
+authors:
+
+  - family-names: Rintoul
+
+    given-names: Jean
+
+    orcid: "https://orcid.org/0000-0002-1963-7023"
+
+repository-code: "https://github.com/Acoustoelectric/Acoustoelectric_neuromodulation_and_its_contribution_to_US_stimulation"
+
+license: Apache 2.0 License
+
+version: "1.0.0"
+
+date-released: "2026-05-05"
