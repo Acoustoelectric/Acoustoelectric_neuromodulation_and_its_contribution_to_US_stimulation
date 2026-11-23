@@ -81,7 +81,7 @@ for i in range(len(control_list)):
         frequencies = xf[1:(end_pause-start_pause)//2]
 
         cbrain_signal  = brain_signal
-        cemg_signal    = d_emg
+        cemg_signal    = d_hemg   # EMG envelope channel, same as the triplets
         #  
         cfft_brain   = fft(cbrain_signal[start_pause:end_pause])
         cfft_brain   = np.abs(2.0/(end_pause-start_pause) * (cfft_brain))[1:(end_pause-start_pause)//2]
@@ -295,7 +295,7 @@ sample1 = ae_emg_ffts[f_df_idx]
 sample2 = p_emg_ffts[f_df_idx]
 sample3 = v_emg_ffts[f_df_idx]
 sample4_orig = c_emg_ffts[f_df_idx]
-sample4 = v_emg_ffts[f_df_idx]
+sample4 = v_emg_ffts[f_df_idx].copy()   # separate array, so control values do not overwrite the voltage-only group
 
 scolors = ['Black', 'Red', 'Grey','Pink']
 x = [1,2,3,4]
@@ -324,6 +324,12 @@ for i in range(len(sample2)):
     else: 
         sample4[i] = const+sample4_orig[j]/totals[i]
 
+
+# Exclude normalised control values > 1 (control larger than the AE+P+V total of the triplet it was divided by)
+n_excl  = int((sample4 > 1).sum())
+sample4 = sample4[sample4 <= 1]
+print('Control values excluded (>1):', n_excl, ' control n =', len(sample4))
+y = [sample1,sample2,sample3,sample4]
 
 print ('2 ae ffts :',sample1)
 print ('2 pressure ffts :',sample2 )
@@ -355,7 +361,7 @@ violin_parts['cmaxes'].set_colors(colors)
 w = 0.4 
 for i in range(len(x)):
     # distribute scatter randomly across whole width of bar
-    ax.scatter(x[i] + np.random.random(y[i].size) * w - w / 2, y[i],color=scolors[i])
+    ax.scatter(x[i] + np.random.random(y[i].size) * w - w / 2, y[i],color=scolors[i], s=20)
 ax.set_xticks([1,2,3,4])
 ax.set_xticklabels(materials)
 plt.yticks(fontsize=fonts)
@@ -364,7 +370,8 @@ ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)
 # Save the figure and show
 plt.tight_layout()
-plt.savefig('aedc_emg_violin_plot.png')
+plt.savefig('aedc_emg_violin_plot.png', dpi=300)
+plt.savefig('aedc_emg_violin_plot.pdf')
 plt.show()
 
 

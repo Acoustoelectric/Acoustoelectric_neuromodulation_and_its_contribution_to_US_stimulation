@@ -1,5 +1,7 @@
 # Acoustoelectric neuromodulation and its contribution to US stimulation
 
+> **Correction (Nov 2026):** Fig 3d and Fig 4c analysis scripts updated to fix a coding error in the voltage-only/control groups and to compute controls on the same EMG channel as the triplets.
+
 ## Overview
 
 The code contained in this repository, works in conjunction with the datasets uploaded to figshare at: DOI: https://doi.org/10.6084/m9.figshare.c.7909283
